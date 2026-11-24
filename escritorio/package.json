@@ -1,0 +1,30 @@
+{
+  "name": "pixel-deck",
+  "version": "1.0.0",
+  "description": "Reproductor de música retro de SolidPixel con biblioteca en Cloudflare R2",
+  "main": "main.js",
+  "author": "SolidPixel",
+  "license": "UNLICENSED",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder --mac dmg"
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.1176.0",
+    "music-metadata": "^7.14.0"
+  },
+  "devDependencies": {
+    "electron": "^33.2.0",
+    "electron-builder": "^25.1.8"
+  },
+  "build": {
+    "appId": "cl.solidpixel.pixeldeck",
+    "productName": "Pixel Deck",
+    "mac": {
+      "category": "public.app-category.music",
+      "target": [
+        "dmg"
+      ]
+    }
+  }
+}

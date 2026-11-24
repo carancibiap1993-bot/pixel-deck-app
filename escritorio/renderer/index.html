@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; media-src 'self' media:; style-src 'self' 'unsafe-inline'; img-src 'self' data:" />
+  <title>Pixel Deck</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="shell">
+    <header class="titlebar">
+      <span class="brand">PIXEL<b>DECK</b></span>
+      <span class="maker">SOLIDPIXEL · HI-FI</span>
+    </header>
+
+    <!-- Pantalla -->
+    <section class="display">
+      <div class="display-top">
+        <div class="clock-wrap">
+          <span id="stateIcon" class="state">■</span>
+          <span id="clock" class="clock" title="Clic: tiempo transcurrido / restante">00:00</span>
+        </div>
+        <div class="info">
+          <div class="marquee"><span id="marquee">PIXEL DECK · ARRASTRA TU MÚSICA AQUÍ</span></div>
+          <div class="tech">
+            <span id="kbps">---</span><small>KBPS</small>
+            <span id="khz">--</span><small>KHZ</small>
+            <span id="srcLamp" class="lamp">NUBE</span>
+            <span id="chan" class="lamp">STEREO</span>
+          </div>
+        </div>
+      </div>
+      <canvas id="spectrum" height="54"></canvas>
+    </section>
+
+    <input id="seek" class="seek" type="range" min="0" max="1000" value="0" />
+
+    <!-- Controles -->
+    <section class="transport">
+      <div class="keys">
+        <button id="btnPrev" class="key" title="Anterior">⏮</button>
+        <button id="btnPlay" class="key play" title="Reproducir">▶</button>
+        <button id="btnPause" class="key" title="Pausa">❚❚</button>
+        <button id="btnStop" class="key" title="Detener">■</button>
+        <button id="btnNext" class="key" title="Siguiente">⏭</button>
+      </div>
+      <div class="toggles">
+        <button id="btnShuffle" class="pill" title="Aleatorio">ALEAT.</button>
+        <button id="btnRepeat" class="pill" title="Repetir">REP: NO</button>
+        <button id="btnEq" class="pill" title="Mostrar ecualizador">EQ</button>
+      </div>
+      <label class="vol" title="Volumen">
+        <span>VOL</span>
+        <input id="volume" type="range" min="0" max="100" value="80" />
+      </label>
+    </section>
+
+    <!-- Ecualizador -->
+    <section id="eqPanel" class="eq hidden">
+      <div class="eq-head">
+        <button id="eqOn" class="pill on">EQ ON</button>
+        <select id="eqPreset">
+          <option value="">Presets…</option>
+        </select>
+        <button id="eqReset" class="pill">PLANO</button>
+      </div>
+      <div class="eq-bands" id="eqBands"></div>
+    </section>
+
+    <!-- Lista -->
+    <section class="playlist">
+      <div class="tabs">
+        <button id="tabList" class="tab on">MI LISTA</button>
+        <button id="tabCloud" class="tab">☁ NUBE</button>
+        <span id="plCount" class="pl-count">0 pistas</span>
+      </div>
+      <div class="pl-head">
+        <span class="search-ico">⌕</span>
+        <input id="search" type="search" placeholder="Buscar artista, canción o carpeta  (⌘F)" />
+      </div>
+      <div id="chips" class="chips hidden"></div>
+      <div id="list" class="list" tabindex="0"></div>
+      <div class="pl-foot" id="footList">
+        <button id="btnAdd" class="pill">+ AÑADIR</button>
+        <button id="btnRemove" class="pill">QUITAR</button>
+        <button id="btnSort" class="pill">ORDENAR</button>
+        <button id="btnClear" class="pill">LIMPIAR</button>
+        <span id="plTotal" class="pl-total">0:00</span>
+      </div>
+      <div class="pl-foot hidden" id="footCloud">
+        <button id="btnToList" class="pill">+ A MI LISTA</button>
+        <button id="btnRefresh" class="pill">↻ ACTUALIZAR</button>
+        <button id="btnCloudCfg" class="pill">⚙ NUBE</button>
+        <span id="cloudTotal" class="pl-total">0 GB</span>
+      </div>
+    </section>
+  </div>
+
+  <!-- Configuración de la nube -->
+  <div id="modal" class="modal hidden">
+    <div class="card">
+      <h3>☁ Conectar la nube</h3>
+      <p class="hint">Cloudflare R2. Las claves se guardan cifradas en el llavero de tu Mac y nunca salen de él.</p>
+      <label>Endpoint (S3 API)
+        <input id="cfEndpoint" placeholder="https://xxxxxxxx.r2.cloudflarestorage.com" spellcheck="false" />
+      </label>
+      <label>Bucket
+        <input id="cfBucket" placeholder="mi-musica" spellcheck="false" />
+      </label>
+      <label>Access Key ID
+        <input id="cfKey" spellcheck="false" />
+      </label>
+      <label>Secret Access Key
+        <input id="cfSecret" type="password" spellcheck="false" />
+      </label>
+      <div id="cfStatus" class="status"></div>
+      <div class="card-actions">
+        <button id="cfCancel" class="pill">CANCELAR</button>
+        <button id="cfSave" class="pill on">GUARDAR Y PROBAR</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="dropzone" class="dropzone"><div>Suelta tus canciones o carpetas</div></div>
+  <div id="toast" class="toast"></div>
+
+  <script src="renderer.js"></script>
+</body>
+</html>
