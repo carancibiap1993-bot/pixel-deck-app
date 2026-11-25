@@ -8,6 +8,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "android:setup": "npm run build && npx cap add android && node scripts/patch-android.mjs && npx cap sync android",
+    "android:apk": "node scripts/build-apk.mjs",
     "android": "npm run build && npx cap sync android && npx cap open android"
   },
   "dependencies": {
